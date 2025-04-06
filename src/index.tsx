@@ -3,13 +3,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import env from "./env/env";
+
+import { AuthProvider } from "react-oidc-context";
+const cognitoAuthConfig = {
+  authority: env.COGNITO_ENV__CONFIG_AUTHORITY,
+  client_id: env.COGNITO_ENV__CONFIG_CLIENT_ID,
+  redirect_uri: env.COGNITO_ENV__CONFIG_REDIRECT_URI,
+  response_type: env.COGNITO_ENV__CONFIG_RESPONSE_TYPE,
+  scope: env.COGNITO_ENV__CONFIG_SCOPE,
+};
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider {...cognitoAuthConfig}>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 
